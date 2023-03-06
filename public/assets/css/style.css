@@ -1,0 +1,24 @@
+body {
+    background-color: black;
+    /*background-image: linear-gradient(to bottom, #051937, #171228, #190a1a, #12040d, #000000);*/
+    background-repeat: no-repeat;
+    color: aliceblue;
+}
+
+.movie-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.movie-card {
+    text-align: center;
+    width: 180px;
+}
+
+.movie-card img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}

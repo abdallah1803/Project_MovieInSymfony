@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - Mon site</title>
+
+    <link rel="stylesheet" href="{{ asset('/assets/css/movie.css') }}">
+</head>
+<body style="background: #000000">
+{% if app.user %}
+    <p>Bienvenue, {{ app.user.username }} ! <a href="{{ path('app_user_logout') }}">Déconnexion</a></p>
+
+{% endif %}
+<i>vous n'etes  pas connecter</i>
+{% block body %}{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}
+<br><br><br>
+<center>
+
+    <br><br><br>
+    <a href="movie">film disponible</a>
+    <br><br><br>
+<a href="register">s'inscrire</a>
+<br><br><br>
+<a href="login">se connecter</a>
+    <br><br><br>
+</center>
+
+</body>
+</html>

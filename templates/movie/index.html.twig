@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <header>
+        <div class="company-logo">DA</div>
+        <nav class="navbar">
+            <ul class="nav-items">
+
+                <li class="nav-item"><a href="{{ path('favorite_movies') }}" class="nav-link">FAVORITES</a></li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item"><a href="{{ path('admin_home') }}" class="nav-link">ADMIN</a></li>
+                {% endif %}
+                {% if app.user %}
+                    <li class="nav-item"><a href="{{ path('app_user_logout') }}" title="Logout" class="nav-link">{{ app.user.username }}</a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{{ path('app_user_login') }}" class="nav-link">LOGIN</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="bx bx-menu"></i>
+            <i class="bx bx-x"></i>
+        </div>
+    </header>
+
+
+
+    <center>
+        <div class="movie-container">
+            {% for movie in movies %}
+                <div class="movie-card">
+                    <a href="{{ path('show_movie', {'id': movie.id}) }}">
+                        <img src="{{ movie.poster }}"  style="object-fit: cover; width: 180px; height: 271px;">
+                    </a>
+                    <h3 style="text-align: center;">{{ movie.Title }}</h3>
+                    <a href="{{ path('favorite_movie', {'id': movie.id}) }}">Favorite</a>
+
+                </div>
+            {% endfor %}
+        </div>
+        <br><br><br><br><br>
+    </center>
+
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock %}
+{% block body %}
+    <style>
+        button, input, optgroup, select, textarea {
+            border-color: #000;
+            width: 85%;
+
+            background-color: #000;
+            color: #fff;">
+
+
+        }
+        input[type="text" i] {
+            padding: 10px 20px;
+        }
+    </style>
+    <center >
+        <header style="color: #fff; width: 50%; display: flex; justify-content: space-between; align-items: center;">
+            <div><a href="{{ path('movie_home') }}">Home</a></div>
+            <div><a href="{{ path('movie_home') }}">Search</a></div>
+        </header>
+
+
+        <div style="max-width: 850px;border: 5px solid white; border-color: rgb(19,18,18);padding: 20px;  border-radius: 15px;">
+        <div id="player"></div>
+
+
+
+
+            <script>
+                var videoId = '{{ movie.linkFilm }}';
+                var player;
+                function onYouTubeIframeAPIReady() {
+                    player = new YT.Player('player', {
+                        height: '450',
+                        width: '800',
+                        videoId: '{{ movie.linkFilm }}'
+                    });
+                }
+            </script>
+
+
+            <h1 style="text-align: left">{{ movie.Title }}</h1>
+
+            <div style="text-align: left">
+                {{ movie.description }}
+            </div>
+        </div>
+    </center>
+        <br>
+
+    <br><br>
+    <center>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div style="color: #ff0000">
+        <a href="{{ path('movie_delete', {id: movie.id}) }}" onclick="return confirm('Are you sure you want to delete this movie ?')">Supprimer</a>
+        </div>
+        <div style="color: #ff0000">
+            <a href="{{ path('movie_edit', {id: movie.id}) }}" onclick="return confirm('for Update')">Update</a>
+        </div>
+    {% endif %}
+    </center>
+        <br><br><br>
+    <center>
+
+        <br><br><br>
+
+
+        {% if isLogin %}
+            <div style="max-width: 50%; border-bottom: 2px solid #a09592; display: flex; align-items: center;">
+
+                {{ form_start(form) }}
+
+                {{ form_widget(form.content, {'attr': {'placeholder': 'add a comment'}, 'style': 'flex: 1;'}) }}
+
+                {{ form_widget(form.submit, {'attr': {'class': 'transparent-submit'}, 'style': 'margin-left: 10px;'}) }}
+
+                {{ form_end(form) }}
+
+                <br><br>
+
+            </div>
+
+        {% else %}
+            <div style="max-width: 50%; border-bottom: 2px solid #a09592; display: flex; align-items: center;">
+
+                <div style="width: 80%; text-align: left;">
+
+                        to add a comment you must log in
+
+                </div>
+                <div style="width: 20%; text-align: right;">
+
+                        <a style="color: #f29a80" href="{{ path('app_user_login') }}">login</a>
+
+
+                </div>
+                <br><br>
+            </div>
+        {% endif %}
+
+
+        <br><br><br><br>
+
+
+        {% for comment in comments %}
+            <div style="max-width: 50%; display: flex; align-items: center;">
+                <h2 style="border-left: 6px solid #f49b80; text-align: left; margin-right: 10px;">{{ comment.author }}</h2>
+                <span style="margin-left: 10px; color: #979a9d">{{ comment.createdAt.format('Y/m/d ') }}</span>
+            </div>
+            <div style="max-width: 50%; border-bottom: 2px solid #a09592; display: flex; align-items: center;">
+                <div style="width: 80%; text-align: left;">
+
+                    {{ comment.content }}
+
+                </div>
+                <div style="width: 20%; text-align: right;">
+                    {% if app.user and app.user == comment.user or is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('delete_comment', {id: comment.id}) }}"><img src="{{ asset('images/poubelle.png') }}" style="width: 30px;"></a>
+                    {% endif %}
+                </div>
+                <br><br>
+            </div>
+
+
+
+            <br>
+
+
+
+
+
+
+        {% endfor %}
+
+
+        <br><br><br><br><br>
+    </center>
+
+{% endblock %}

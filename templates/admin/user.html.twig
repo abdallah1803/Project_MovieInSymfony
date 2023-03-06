@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <header>
+        <div class="company-logo">DA</div>
+        <nav class="navbar">
+            <ul class="nav-items">
+                <li class="nav-item"><a href="{{ path('movie_home') }}" class="nav-link">HOME</a></li>
+
+                <li class="nav-item"><a href="{{ path('admin_home') }}" class="nav-link">ADMIN</a></li>
+                <li class="nav-item"><a href="{{ path('app_user_logout') }}" title="Logout" class="nav-link">{{ app.user.username }}</a></li>
+
+            </ul>
+        </nav>
+        <div class="menu-toggle">
+            <i class="bx bx-menu"></i>
+            <i class="bx bx-x"></i>
+        </div>
+    </header>
+    <center>
+        <br>
+    <h1>User Lists</h1>
+        <br><br><br>
+    <table class="table" style="max-width: 80%; color: #ffffff">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Action</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.id != app.user.id %}
+
+                        <a href="{{ path('admin_user_delete', {'id': user.id}) }}">Supprimer</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if 'ROLE_ADMIN' in user.roles %}
+                        Admin
+                    {% else %}
+                        <a href="{{ path('admin_make_admin', {'user_id': user.id}) }}">Make Admin</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </center>
+
+
+{% endblock %}

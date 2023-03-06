@@ -26,23 +26,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MovieRepository;
 class MovieController extends AbstractController {
 
-    public function show(Request $request, MovieRepository $movieRepository): Response
-    {
-        $searchForm = $this->createForm(MovieSearchType::class);
-        $searchForm->handleRequest($request);
-
-        $movies = [];
-        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            $title = $searchForm->get('title')->getData();
-            $movies = $movieRepository->findBy(['Title' => $title]);
-        }
-
-        return $this->render('movie/index.html.twig', [
-            'searchForm' => $searchForm->createView(),
-            'movies' => $movies,
-        ]);
-    }
-
 
 
     #[Route('movie/{id}/delete', name: 'movie_delete')]
